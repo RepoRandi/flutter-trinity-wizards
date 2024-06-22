@@ -2,7 +2,7 @@ class Contact {
   String id;
   String firstName;
   String lastName;
-  String email;
+  String? email;
   String? phone;
   String? dob;
 
@@ -10,7 +10,7 @@ class Contact {
     required this.id,
     required this.firstName,
     required this.lastName,
-    required this.email,
+    this.email,
     this.phone,
     this.dob,
   });
