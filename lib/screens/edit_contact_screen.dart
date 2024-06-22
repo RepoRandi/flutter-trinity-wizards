@@ -29,6 +29,22 @@ class _EditContactScreenState extends State<EditContactScreen> {
     _dob = widget.contact.dob ?? '';
   }
 
+  void _saveContact() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final updatedContact = Contact(
+        id: widget.contact.id,
+        firstName: _firstName,
+        lastName: _lastName,
+        email: _email,
+        dob: _dob,
+      );
+      Provider.of<ContactProvider>(context, listen: false)
+          .updateContact(updatedContact);
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,22 +61,7 @@ class _EditContactScreenState extends State<EditContactScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final updatedContact = Contact(
-                  id: widget.contact.id,
-                  firstName: _firstName,
-                  lastName: _lastName,
-                  email: _email,
-                  phone: _dob,
-                  dob: widget.contact.dob,
-                );
-                Provider.of<ContactProvider>(context, listen: false)
-                    .updateContact(updatedContact);
-                Navigator.pop(context);
-              }
-            },
+            onPressed: _saveContact,
             child: Text(
               'Save',
               style: TextStyle(color: orange),
