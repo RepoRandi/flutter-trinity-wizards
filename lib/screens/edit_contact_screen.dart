@@ -46,7 +46,20 @@ class _EditContactScreenState extends State<EditContactScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                final updatedContact = Contact(
+                  id: widget.contact.id,
+                  firstName: _firstName,
+                  lastName: _lastName,
+                  email: _email,
+                  phone: _dob,
+                  dob: widget.contact.dob,
+                );
+                Provider.of<ContactProvider>(context, listen: false)
+                    .updateContact(updatedContact);
+                Navigator.pop(context);
+              }
             },
             child: Text(
               'Save',
@@ -192,42 +205,101 @@ class _EditContactScreenState extends State<EditContactScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              TextFormField(
-                initialValue: _email,
-                decoration: const InputDecoration(labelText: 'Email'),
-                onSaved: (value) {
-                  _email = value!;
-                },
-              ),
-              TextFormField(
-                initialValue: _dob,
-                decoration: const InputDecoration(labelText: 'DOB'),
-                onSaved: (value) {
-                  _dob = value!;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    final updatedContact = Contact(
-                      id: widget.contact.id,
-                      firstName: _firstName,
-                      lastName: _lastName,
-                      email: _email,
-                      phone: _dob,
-                      dob: widget.contact.dob,
-                    );
-                    Provider.of<ContactProvider>(context, listen: false)
-                        .updateContact(updatedContact);
-                    Navigator.pop(context);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFF8C00),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      flex: 1,
+                      child: Text(
+                        'Email',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      flex: 4,
+                      child: TextFormField(
+                        initialValue: _email,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: BorderSide(
+                              color: orange,
+                            ),
+                          ),
+                        ),
+                        onSaved: (value) {
+                          _email = value!;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                child: const Text('Save'),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Divider(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      flex: 1,
+                      child: Text(
+                        'DOB',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
+                    Expanded(
+                      flex: 4,
+                      child: TextFormField(
+                        initialValue: _dob,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                            borderSide: BorderSide(
+                              color: orange,
+                            ),
+                          ),
+                          suffixIcon: const Icon(
+                            Icons.calendar_today,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        onSaved: (value) {
+                          _dob = value!;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Divider(),
               ),
             ],
           ),
