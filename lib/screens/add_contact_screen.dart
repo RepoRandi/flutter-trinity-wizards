@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../models/contact.dart';
 import '../providers/contact_provider.dart';
-import '../themes/color.dart'; // Ensure to import your color theme
+import '../themes/color.dart';
 
 class AddContactScreen extends StatefulWidget {
   const AddContactScreen({super.key});
